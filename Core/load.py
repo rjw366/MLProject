@@ -6,6 +6,7 @@ import modeldata as md
 import mlmodels as mlm
 import pickle
 import random as rd
+import numpy as np
 
 '''
 Takes as input a file with a business info on each line and splits it into separate files for each state
@@ -159,10 +160,8 @@ if __name__ == '__main__':
     print bag_of_ngrams.labels.shape
     exit()
     # get_reviews_for_state('../data/parsed/businesses_TX', '../data/yelp_data/yelp_academic_dataset_review.json')
-    #all_sets = split_data(parsed_dir + 'businesses_WI_restaurants', parsed_dir + 'businesses_WI_restaurants_reviews', 2, 5)
-    #bag_of_words = md.create_bag_of_words(ba_aggr=all_sets['train1'], attribute="Price Range")
-    bag_of_words = md.create_bag_of_words(parsed_dir + 'businesses_WI_restaurants',
-                                           parsed_dir + 'businesses_WI_restaurants_reviews')
+    all_sets = split_data(parsed_dir + 'businesses_WI_restaurants', parsed_dir + 'businesses_WI_restaurants_reviews', 2, 5)
+    bag_of_words = md.create_bag_of_words(attribute=["All"],ba_aggr=all_sets['train1'])
     bag_of_words.make_sparse_datamtrix()
     bag_of_words.make_tfidf_matrix()
     print len(bag_of_words.datamatrix.data)
@@ -177,7 +176,12 @@ if __name__ == '__main__':
     Used this for the development of the One Vs Rest model. Want to confer on architecture of program before I move things around
     Figured it'd either be like this or maybe Class setup that calls the method and prints out internally.
     '''
-    #print(bag_of_words.labels[0:10])
+        
+    with open('../data/parsed/attributeMatrix', 'w') as f:
+        for idx, val in enumerate(bag_of_words.labels):
+            f.write(str(idx) + '\t')
+            json.dump(val, f)
+            f.write('\n')
     #X_train, X_test, y_train, y_test = train_test_split(bag_of_words.datamatrix, bag_of_words.labels, test_size=0.3)
     #one_v_rest = mlm.one_vs_rest(X_train,y_train)
     #first10Predict = one_v_rest.predict(bag_of_words.datamatrix[0:10])

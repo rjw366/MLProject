@@ -2,7 +2,6 @@ import nltk
 import business
 from business import Business
 import json
-import xgboost
 from sklearn.multiclass import OneVsRestClassifier
 from sklearn.svm import LinearSVC
 

@@ -81,7 +81,9 @@ def create_bag_of_ngrams(businessfile=None, reviewfile=None, ba_aggr=None, attri
         ba = business.BusinessAggregator(businessfile, reviewfile)
         ba_aggr = ba.aggr
     bag_of_ngrams = BagOfNgrams(n=ngrams)
-    if isinstance(attribute, str):
+    if attribute is None:
+        bag_of_ngrams.add_attribute('All')
+    elif isinstance(attribute, str):
         bag_of_ngrams.add_attribute(attribute)
     elif isinstance(attribute, list):
         for a in attribute:

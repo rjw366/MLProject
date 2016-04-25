@@ -109,7 +109,9 @@ class Business:
         self.reviews.append(rvw)
 
     def get_attribute(self, attribute):
-        if attribute in self.metadata['attributes']:
+        if attribute == "All":
+            return self.metadata['attributes']
+        elif attribute in self.metadata['attributes']:
             return self.metadata['attributes'][attribute]
         else:
             return None
